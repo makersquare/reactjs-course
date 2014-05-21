@@ -1,0 +1,124 @@
+* {
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #FCFCFC;
+}
+
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
+
+
+/** GENERAL **/
+.page-title {
+  text-align: center;
+}
+.page-title h1 {
+  font-size: 40px;
+  margin-bottom: 5px;
+}
+.page-title a {
+  font-size: 20px;
+}
+
+/** USER SELECT **/
+.user-select-box ul {
+  list-style-type: none;
+}
+.user-select-box li {
+  background-color: #fff;
+  border: 1px solid #aaa;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 36px;
+  font-weight: bold;
+  width: 200px;
+  height: 200px;
+  margin: 10px;
+  line-height: 200px;
+  text-align: center;
+}
+.user-select-box li:hover {
+  background-color: #ff9;
+}
+
+/** USER PAGE **/
+
+.user-page h2 {
+  font-size: 30px;
+  margin-bottom: 0;
+}
+.user-title {
+  text-align: center;
+  font-size: 40px;
+}
+.user-list .create-link {
+  width: 300px;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+.user-list .create-link .input-create-link-field {
+  width: 200px;
+  float: right;
+}
+.user-list .create-link .input-create-link-desc {
+  max-width: 280px;
+}
+.user-list .create-link .create-link-label {
+  float: left;
+}
+.user-list .list-actions,
+.user-list h3 {
+  display: inline-block;
+}
+.user-list .list-actions {
+  position: relative;
+  top: -3px;
+}
+.user-list h3 {
+  font-size: 24px;
+  margin-right: 25px;
+  margin-bottom: 0;
+}
+.user-list h4 {
+  margin-bottom: 2px;
+}
+.user-list .user-link {
+  position: relative;
+  border-bottom: 1px solid #ccc;
+}
+.user-list .user-link:hover {
+  background-color: #ddd;
+}
+.user-list .user-link button {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+}
+.user-link-desc {
+  margin-top: 3px;
+  margin-bottom: 5px;
+}
+.user-control-panel {
+  float: left;
+  padding: 25px;
+  width: 25%;
+}
+.user-control-panel h2 {
+  text-align: center;
+}
+.user-list-box {
+  float: left;
+  padding: 25px;
+  width: 75%;
+}
