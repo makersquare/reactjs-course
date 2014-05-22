@@ -1,11 +1,21 @@
 module AwsumLink
   module Lists
     def self.get_lists
-      AwsumLink.db.get_all_lists
+      lists = AwsumLink.db.get_all_lists
+      lists.each do |list|
+        list["links"] = AwsumLink.db.get_links_from_list(list["id"])
+      end
+      return lists
     end
 
     def self.get_lists_from_user user_id
-      AwsumLink.db.get_lists_from_user user_id
+      lists_array = []
+      lists = AwsumLink.db.get_lists_from_user user_id
+      lists.each do |list|
+        list["links"] = AwsumLink.db.get_links_from_list(list["id"])
+        lists_array.push list
+      end
+      return lists_array
     end
 
     def self.get_list id
