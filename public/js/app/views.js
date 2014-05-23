@@ -4,7 +4,7 @@
       UserPageControlPanel,
       UserPageListBox,
       UserPageList,
-      UserPageListItem,
+      UserPageLink,
       SelectUserBox,
       SelectUserListItem;
 
@@ -26,91 +26,6 @@
     });
   }
 
-  // Page for /user/:id
-  AwsumApp.viewClasses.UserPage = React.createClass({
-    // Get our user's data with AJAX
-    componentWillMount: function() {
-      setPropsWithAJAXData.call(this, 'data', this.props.url);
-    },
-    render: function() {
-      var listsData = null;
-      if (this.props && this.props.data) {
-        listsData = this.props.data.lists;
-      }
-
-      // need loop inside this one
-
-      return (
-        <h1 className="user-title">{this.props.username}</h1>,
-        <UserPageListBox lists={listsData} />
-      )
-    }
-  });
-
-  // Box that holds individual lists for users
-  AwsumApp.viewClasses.UserPageListBox = React.createClass({
-    render : function() {
-      var listNodes;
-      if (this.props && this.props.lists) {
-        listNodes = this.props.lists.map(function (list) {
-          return <UserPageList url={"/list/" + list.id} name={list.name} id={list.id} />;
-        });
-      }
-
-      return (
-        <div className="user-list-box">
-          {listNodes}
-        </div>
-      )
-    }
-  });
-
-  // Individual lists that hold links, inside of UserPageListBox
-  AwsumApp.viewClasses.UserPageList = React.createClass({
-    // Get this list's links
-    componentWillMount: function() {
-      setPropsWithAJAXData.call(this, 'data', this.props.url);
-    },
-    render : function() {
-      var linkNodes = null;
-      if (this.props && this.props.data) {
-        linkNodes = this.props.data.links.map(function (link) {
-          return <UserPageLink id={data.id} url={data.url} name={data.name} description={data.description} />;
-        });
-      }
-
-      return (
-        <div className="user-list">
-          <h2>List Name: {this.props.name}</h2>
-          {linkNodes}
-        </div>
-      )
-    }
-  });
-
-  AwsumApp.viewClasses.UserPageLink = React.createClass({
-    render : function() {
-      return (
-        <div className="user-link">
-          <a href={this.props.url}>
-            {this.props.name}
-          </a>
-        </div>
-      )
-    }
-  })
-
-  AwsumApp.viewClasses.SelectUserListItem = React.createClass({
-    handleClick : function() {
-      AwsumApp.loadUserPage(this.props.id);
-    },
-    render: function() {
-      return (
-        <li onClick={this.handleClick}>{this.props.username}</li>
-      )
-    }
-  });
-
   // Select box where we will choose a user's page to view.
   // We first make a call to the server to get all users
   // which is passed to this.props.url when the component is defined
@@ -130,10 +45,158 @@
 
       return (
         <div className="user-select-box">
-          <h1>Select a user</h1>
+          <div className="page-title">
+            <h1>Select a user</h1>
+          </div>
           <ul className="user-list">
             {userNodes}
           </ul>
+        </div>
+      )
+    }
+  });
+
+  // Individual clickable list item to choose a user
+  AwsumApp.viewClasses.SelectUserListItem = React.createClass({
+    handleClick : function() {
+      AwsumApp.showUserPage(this.props.id);
+    },
+    render: function() {
+      return (
+        <li onClick={this.handleClick}>{this.props.username}</li>
+      )
+    }
+  });
+
+  // Page for /user/:id
+  AwsumApp.viewClasses.UserPage = React.createClass({
+    // Get our user's data with AJAX
+    componentWillMount: function() {
+      setPropsWithAJAXData.call(this, 'data', this.props.url);
+    },
+    updateProps : function() {
+      setPropsWithAJAXData.call(this, 'data', this.props.url);
+    },
+    render: function() {
+      var listsData = null;
+      if (this.props && this.props.data) {
+        listsData = this.props.data.lists;
+      }
+
+      return (
+        <div className="user-page">
+          <div className="page-title">
+            <h1 className="user-title">{ this.props.data ? this.props.data.username + '\'s Links' : '' }</h1>
+            <a href="#" className="user-back" onClick={AwsumApp.showSelectUserPage.bind(AwsumApp)}>(back to users)</a>
+          </div>
+          <UserPageControlPanel userPageProps={this.props} />
+          <UserPageListBox lists={listsData} />
+        </div>
+      )
+    }
+  });
+
+  // Control panel
+  AwsumApp.viewClasses.UserPageControlPanel = React.createClass({
+    createList : function() {
+      var listName = $('#input-create-list', this.getDOMNode()).val();
+      AwsumApp.createList(AwsumApp.currentUser, listName);
+    },
+    // Get our user's data with AJAX
+    render: function() {
+      return (
+        <div className="user-control-panel">
+          <h2>Control Panel</h2>
+          <h3>Create List</h3>
+          <input type="text" id="input-create-list" />
+          <button type="button" onClick={this.createList}>Create List</button>
+        </div>
+      )
+    }
+  });
+
+  // Box that holds individual lists for users
+  AwsumApp.viewClasses.UserPageListBox = React.createClass({
+    render : function() {
+      var listNodes;
+      if (this.props && this.props.lists) {
+        listNodes = this.props.lists.map(function (list) {
+          return <UserPageList name={list.name} id={list.id} links={list.links} />;
+        });
+      }
+
+      return (
+        <div className="user-list-box">
+          {listNodes}
+        </div>
+      )
+    }
+  });
+
+  // Individual lists that hold links, inside of UserPageListBox
+  AwsumApp.viewClasses.UserPageList = React.createClass({
+    showAddLink : function() {
+      $('.create-link', this.getDOMNode()).toggle();
+    },
+    addLink : function() {
+      var el = this.getDOMNode();
+      var linkUrlEl  = $('#input-create-link-url', el);
+      var linkNameEl = $('#input-create-link-name', el);
+      var linkDescEl = $('#input-create-link-desc', el);
+      var linkUrl  = linkUrlEl.val();
+      var linkName = linkNameEl.val();
+      var linkDesc = linkDescEl.val();
+      AwsumApp.createLink(this.props.id, linkUrl, linkName, linkDesc);
+      // Empty fields after creating
+      linkUrlEl.val('');
+      linkNameEl.val('');
+      linkDescEl.val('');
+    },
+    deleteList : function() {
+      AwsumApp.deleteList(this.props.id);
+    },
+    render : function() {
+      var linkNodes = null;
+      if (this.props && this.props.links) {
+        linkNodes = this.props.links.map(function (link) {
+          return <UserPageLink id={link.id} url={link.url} name={link.name} description={link.description} />;
+        });
+      }
+
+      return (
+        <div className="user-list">
+          <h2>{this.props.name}</h2>
+          <div className="list-actions">
+            <button type="button" onClick={this.deleteList}>Delete List</button>
+            <button type="button" onClick={this.showAddLink}>Add Link</button>
+          </div>
+          <div className="create-link" style={{"display":"none"}}>
+            <label>URL</label>
+            <input id="input-create-link-url" type="text" />
+            <label>Name</label>
+            <input id="input-create-link-name" type="text" />
+            <label>Description</label>
+            <input id="input-create-link-desc" type="text" />
+            <button type="button" onClick={this.addLink}>Add Link</button>
+          </div>
+          {linkNodes}
+        </div>
+      )
+    }
+  });
+
+  // Individual clickable link items
+  AwsumApp.viewClasses.UserPageLink = React.createClass({
+    deleteLink : function() {
+      AwsumApp.deleteLink(this.props.id);
+    },
+    render : function() {
+      return (
+        <div className="user-link">
+          <a href={this.props.url}>
+            <p className="user-link-name">{this.props.name} - {this.props.description}</p>
+          </a>
+          <button type="button" value="delete" onClick={this.deleteLink}>Delete</button>
         </div>
       )
     }
@@ -148,5 +211,5 @@
   UserPageControlPanel = AwsumApp.viewClasses.UserPageControlPanel;
   UserPageListBox      = AwsumApp.viewClasses.UserPageListBox;
   UserPageList         = AwsumApp.viewClasses.UserPageList;
-  UserPageListItem     = AwsumApp.viewClasses.UserPageListItem;
+  UserPageLink         = AwsumApp.viewClasses.UserPageLink;
 })(AwsumApp);

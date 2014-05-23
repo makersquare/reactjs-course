@@ -1,0 +1,72 @@
+* {
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #FCFCFC;
+}
+
+/** GENERAL **/
+.page-title {
+  text-align: center;
+}
+.page-title h1 {
+  font-size: 40px;
+  margin-bottom: 5px;
+}
+.page-title a {
+  font-size: 20px;
+}
+
+/** USER SELECT **/
+.user-select-box ul {
+  list-style-type: none;
+}
+.user-select-box li {
+  background-color: #fff;
+  border: 1px solid #aaa;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 36px;
+  font-weight: bold;
+  width: 200px;
+  height: 200px;
+  margin: 10px;
+  line-height: 200px;
+  text-align: center;
+}
+.user-select-box li:hover {
+  background-color: #ff9;
+}
+
+/** USER PAGE **/
+
+.user-title {
+  text-align: center;
+  font-size: 40px;
+}
+.user-list .list-actions,
+.user-list h2 {
+  display: inline-block;
+}
+.user-list h2 {
+  margin-right: 25px;
+}
+.user-back {
+}
+.user-control-panel {
+  float: left;
+  padding: 25px;
+  width: 25%;
+}
+.user-control-panel h2 {
+  font-size: 30px;
+  text-align: center;
+}
+.user-list-box {
+  float: left;
+  padding: 25px;
+  width: 75%;
+}

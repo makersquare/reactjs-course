@@ -3,7 +3,7 @@ module AwsumLink
     def self.get_user id
       AwsumLink.db.get_user id
       user_hash  = AwsumLink.db.get_user id
-      lists_hash = AwsumLink.db.get_lists_from_user id
+      lists_hash = AwsumLink::Lists.get_lists_from_user id
       user_hash["lists"] = lists_hash
       return user_hash
     end
