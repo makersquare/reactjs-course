@@ -127,6 +127,7 @@
 
       return (
         <div className="user-list-box">
+          <h2>Lists</h2>
           {listNodes}
         </div>
       )
@@ -165,18 +166,22 @@
 
       return (
         <div className="user-list">
-          <h2>{this.props.name}</h2>
+          <h3>{this.props.name}</h3>
           <div className="list-actions">
             <button type="button" onClick={this.deleteList}>Delete List</button>
             <button type="button" onClick={this.showAddLink}>Add Link</button>
           </div>
           <div className="create-link" style={{"display":"none"}}>
-            <label>URL</label>
-            <input id="input-create-link-url" type="text" />
-            <label>Name</label>
-            <input id="input-create-link-name" type="text" />
-            <label>Description</label>
-            <input id="input-create-link-desc" type="text" />
+            <div className="cf">
+              <label className="create-link-label" for="input-create-link-url">URL</label>
+              <input className="input-create-link-field" id="input-create-link-url" type="text" />
+            </div>
+            <div className="cf">
+              <label className="create-link-label" for="input-create-link-name">Name</label>
+              <input className="input-create-link-field" id="input-create-link-name" type="text" />
+            </div>
+            <label for="input-create-link-desc">Description</label>
+            <textarea className="input-create-link-desc" id="input-create-link-desc" type="text" />
             <button type="button" onClick={this.addLink}>Add Link</button>
           </div>
           {linkNodes}
@@ -194,8 +199,9 @@
       return (
         <div className="user-link">
           <a href={this.props.url}>
-            <p className="user-link-name">{this.props.name} - {this.props.description}</p>
+            <h4 className="user-link-name">{this.props.name}</h4>
           </a>
+          <p className="user-link-desc">{this.props.description}</p>
           <button type="button" value="delete" onClick={this.deleteLink}>Delete</button>
         </div>
       )

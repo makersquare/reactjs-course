@@ -8,6 +8,17 @@ body {
   background-color: #FCFCFC;
 }
 
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
+
+
 /** GENERAL **/
 .page-title {
   text-align: center;
@@ -43,18 +54,60 @@ body {
 
 /** USER PAGE **/
 
+.user-page h2 {
+  font-size: 30px;
+  margin-bottom: 0;
+}
 .user-title {
   text-align: center;
   font-size: 40px;
 }
+.user-list .create-link {
+  width: 300px;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+.user-list .create-link .input-create-link-field {
+  width: 200px;
+  float: right;
+}
+.user-list .create-link .input-create-link-desc {
+  max-width: 280px;
+}
+.user-list .create-link .create-link-label {
+  float: left;
+}
 .user-list .list-actions,
-.user-list h2 {
+.user-list h3 {
   display: inline-block;
 }
-.user-list h2 {
-  margin-right: 25px;
+.user-list .list-actions {
+  position: relative;
+  top: -3px;
 }
-.user-back {
+.user-list h3 {
+  font-size: 24px;
+  margin-right: 25px;
+  margin-bottom: 0;
+}
+.user-list h4 {
+  margin-bottom: 2px;
+}
+.user-list .user-link {
+  position: relative;
+  border-bottom: 1px solid #ccc;
+}
+.user-list .user-link:hover {
+  background-color: #ddd;
+}
+.user-list .user-link button {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+}
+.user-link-desc {
+  margin-top: 3px;
+  margin-bottom: 5px;
 }
 .user-control-panel {
   float: left;
@@ -62,7 +115,6 @@ body {
   width: 25%;
 }
 .user-control-panel h2 {
-  font-size: 30px;
   text-align: center;
 }
 .user-list-box {
