@@ -10,14 +10,14 @@
 
   // Utility function; makes an AJAX request and returns the data
   // to the component, setting a key on its properties to the data object
-  function setPropsWithAJAXData(desiredKey, url) {
-    if (!desiredKey) desiredKey = "data";
+  function setPropsWithAJAXData(url) {
     $.ajax({
       url: url,
       dataType: 'json',
       success: function(data) {
-        var props = {};
-        props[desiredKey] = data;
+        var props = {
+          data: data
+        };
         this.setProps(props);
       }.bind(this),
       error: function(xhr, status, err) {
@@ -31,7 +31,7 @@
   // which is passed to this.props.url when the component is defined
   AwsumApp.viewClasses.SelectUserBox = React.createClass({
     componentWillMount: function() {
-      setPropsWithAJAXData.call(this, 'data', this.props.url);
+      setPropsWithAJAXData.call(this, this.props.url);
     },
     render: function() {
       var userNodes;
@@ -72,10 +72,10 @@
   AwsumApp.viewClasses.UserPage = React.createClass({
     // Get our user's data with AJAX
     componentWillMount: function() {
-      setPropsWithAJAXData.call(this, 'data', this.props.url);
+      setPropsWithAJAXData.call(this, this.props.url);
     },
     updateProps : function() {
-      setPropsWithAJAXData.call(this, 'data', this.props.url);
+      setPropsWithAJAXData.call(this, this.props.url);
     },
     render: function() {
       var listsData = null;
